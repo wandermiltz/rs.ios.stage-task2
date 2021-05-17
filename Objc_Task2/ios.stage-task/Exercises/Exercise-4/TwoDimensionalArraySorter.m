@@ -24,19 +24,25 @@
         }
     }
     
-    NSArray *numberArraySorted = [numberArray sortedArrayUsingSelector:@selector(compare:)];
-    NSArray *stringArraySorted = [stringArray sortedArrayUsingSelector:@selector(compare:)];
+    NSArray *numberArraySortedAsc = [numberArray sortedArrayUsingSelector:@selector(compare:)];
+    NSArray *stringArraySortedAsc = [stringArray sortedArrayUsingSelector:@selector(compare:)];
     
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"self" ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSLog(@"%@", [stringArray description]);
+    NSLog(@"%@", [numberArray description]);
+            
     if (stringArray.count == 0) {
-        [resultArray addObjectsFromArray:numberArraySorted];
+        [resultArray addObjectsFromArray:numberArraySortedAsc];
     } else if (numberArray.count == 0) {
-        [resultArray addObjectsFromArray:stringArraySorted];
+        [resultArray addObjectsFromArray:stringArraySortedAsc];
     } else {
-        [resultArray insertObject:numberArraySorted atIndex:0];
-        [resultArray insertObject:stringArraySorted atIndex:1];
-
+        [stringArray sortUsingDescriptors:sortDescriptors];
+        [resultArray insertObject:numberArraySortedAsc atIndex:0];
+        [resultArray insertObject:stringArray atIndex:1];
     }
-    
+    NSLog(@"%@", [resultArray description]);
     return resultArray;
 }
 
